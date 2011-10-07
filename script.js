@@ -24,8 +24,8 @@ $(function() {
 
   // a view that renders the value attribute of the assigned model as a label
   // automatically updates the value on model value attribute change
-  var DivView = Backbone.View.extend({
-    tagName: "div", 
+  var HeaderView = Backbone.View.extend({
+    tagName: "h1", 
 
     initialize: function() {
       // subscribe to change events on the assigned model
@@ -34,7 +34,7 @@ $(function() {
 
     // render the current value attribute of the assigned model
     render: function() {
-      $(this.el).html(this.model.get("value"));
+      $(this.el).html(this.model.get("value") + '&nbsp;');
       return this;
     },
   });
@@ -45,7 +45,8 @@ $(function() {
 
     // initialize input element attributes
     initialize: function() {
-      $(this.el).attr("type", "text");
+      $(this.el).attr("type", "text").
+        addClass("xlarge");
     },
 
     // trigger a call to the change function whenever keyup on the child input tag is fired
@@ -63,7 +64,7 @@ $(function() {
     valueChanged: function() {
       var v = $(this.el).val();
 
-      // this will trigger the change event on the model which will cause the DivView to re-render
+      // this will trigger the change event on the model which will cause the HeaderView to re-render
       this.model.set({value: v});
     },
   });
@@ -73,11 +74,11 @@ $(function() {
 
   // initialzie views and bind to MessageModel instance
   var title = new TitleView({model: m});
-  var lbl = new DivView({model: m});
+  var lbl = new HeaderView({model: m});
   var txt = new TextView({model: m});
 
   // render the views
-  $('body').append(lbl.render().el);
-  $('body').append(txt.render().el);
+  $('#content').append(lbl.render().el);
+  $('#content').append(txt.render().el);
 });
 
